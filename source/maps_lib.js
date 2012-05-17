@@ -11,10 +11,10 @@
  */
 
 //Setup section - put your Fusion Table details here
-var fusionTableId = 2086698; //replace this with the ID of your Fusion Table
-var locationColumn = 'geometry'; //name of the location column in your Fusion Table
+var fusionTableId = 3239624; //replace this with the ID of your Fusion Table
+var locationColumn = 'Location'; //name of the location column in your Fusion Table
 
-var map_centroid = new google.maps.LatLng(41.8781136, -87.66677856445312); //center that your map defaults to
+var map_centroid = new google.maps.LatLng(37.806258,-122.271023); //center that your map defaults to
 var searchRadius = 805; //in meters ~ 1/2 mile
 var locationScope = 'chicago'; //geographical area appended to all address searches if not present
 var recordName = "result";
