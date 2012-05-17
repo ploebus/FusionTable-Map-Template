@@ -69,16 +69,17 @@ function doSearch()
 	
 	//best way to filter results by a type is to create a 'type' column and assign each row a number (strings work as well, but numbers are faster). then we can use the 'IN' operator and return all that are selected
 	var tempArr = new Array();
-	var searchType = "Status in (";
+	var searchType = " AND Status IN(";
       if (type1) //drop-off center
-		tempArr.push('"Vacant"');
-		//searchType += "Vacant";
+		tempArr.push("'Vacant'");
+		//searchType += "'Vacant'";
 	if (type2) //private
-		tempArr.push('"Open"');
-		//searchType += "Open";
+		tempArr.push("'Open'");
+		//searchType += "'Open'";
 	//if (type3) //hazardous waste site
-		//searchType += "3,";
-	searchStr += " AND " + searchType + tempArr.join(',') +  ")";
+		searchType += tempArr.join(",");
+		console.log(searchType);
+	searchStr += searchType + ")";
   //searchStr += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 	
 	//-------end of filter by type code--------
