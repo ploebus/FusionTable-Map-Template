@@ -12,11 +12,11 @@
 
 //Setup section - put your Fusion Table details here
 var fusionTableId = 3239624; //replace this with the ID of your Fusion Table
-var locationColumn = 'Location'; //name of the location column in your Fusion Table
+var locationColumn = 'Address'; //name of the location column in your Fusion Table
 
 var map_centroid = new google.maps.LatLng(37.806258,-122.271023); //center that your map defaults to
 var searchRadius = 805; //in meters ~ 1/2 mile
-var locationScope = 'chicago'; //geographical area appended to all address searches if not present
+var locationScope = 'oakland'; //geographical area appended to all address searches if not present
 var recordName = "result";
 var recordNamePlural = "results";
 
@@ -45,7 +45,7 @@ function initialize() {
   
   $("#cbType1").attr("checked", "checked");
   $("#cbType2").attr("checked", "checked");
-  $("#cbType3").attr("checked", "checked");
+  //$("#cbType3").attr("checked", "checked");
   
   searchrecords = null;
   $("#txtSearchAddress").val("");
@@ -60,7 +60,7 @@ function doSearch()
 	
 	var type1 = $("#cbType1").is(':checked');
 	var type2 = $("#cbType2").is(':checked');
-	var type3 = $("#cbType3").is(':checked');
+	//var type3 = $("#cbType3").is(':checked');
 	
 	searchStr = "SELECT " + locationColumn + " FROM " + fusionTableId + " WHERE " + locationColumn + " not equal to ''";
 	
@@ -68,15 +68,18 @@ function doSearch()
 	//remove this if you don't have any types to filter
 	
 	//best way to filter results by a type is to create a 'type' column and assign each row a number (strings work as well, but numbers are faster). then we can use the 'IN' operator and return all that are selected
-	var searchType = "type IN (-1,";
+	var tempArr = new Array();
+	var searchType = "Status in (";
       if (type1) //drop-off center
-		searchType += "1,";
+		tempArr.push('"Vacant"');
+		//searchType += "Vacant";
 	if (type2) //private
-		searchType += "2,";
-	if (type3) //hazardous waste site
-		searchType += "3,";
-
-  searchStr += " AND " + searchType.slice(0, searchType.length - 1) + ")";
+		tempArr.push('"Open"');
+		//searchType += "Open";
+	//if (type3) //hazardous waste site
+		//searchType += "3,";
+	searchStr += " AND " + searchType + tempArr.join(',') +  ")";
+  //searchStr += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 	
 	//-------end of filter by type code--------
 	
@@ -184,6 +187,7 @@ function drawSearchRadiusCircle(point) {
 
 function Query(sql, callback) {
   var sql = encodeURIComponent(sql);
+  //console.log(sql);
 	$.ajax({url: "https://www.google.com/fusiontables/api/query?sql="+sql+"&jsonCallback="+callback, dataType: "jsonp"});
 }
 
@@ -196,7 +200,7 @@ function displayCount(searchStr) {
 }
 
 function displaySearchCount(json) {
-  //console.log(json);
+  console.log(json);
   var numRows = json["table"]["rows"][0];
   
   if (numRows == null)
