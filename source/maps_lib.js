@@ -154,6 +154,7 @@ function doSearch()
 		});
 		jQuery('.content-secondary').append(newInfoWindow);
 		jQuery("#myPop").html(testObj.infoWindowHtml);
+		getAPN("672 13th Street Oakland");
 		event.preventDefault();
 	})
 }
