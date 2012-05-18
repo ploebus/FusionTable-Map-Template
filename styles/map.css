@@ -177,3 +177,11 @@ td .options-h, td .options-v { margin: 0; }
 #label-red { color: #d73e3e; }
 
 #resultCount { float: right; font-weight: bold; font-size: 15px; margin-top: 8px; }
+
+/*John Edits*/
+.shadow{
+	-moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #ccc;	
+}
+

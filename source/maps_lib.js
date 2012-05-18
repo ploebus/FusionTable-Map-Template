@@ -30,6 +30,8 @@ var searchrecords;
 var searchStr;
 var searchRadiusCircle;
 
+var districtLayer;
+var testObj;
 function initialize() {
   $( "#resultCount" ).html("");
 
@@ -69,7 +71,7 @@ function doSearch()
 	
 	//best way to filter results by a type is to create a 'type' column and assign each row a number (strings work as well, but numbers are faster). then we can use the 'IN' operator and return all that are selected
 	var tempArr = new Array();
-	var searchType = " AND Status IN(";
+	var searchType;
       if (type1) //drop-off center
 		tempArr.push("'Vacant'");
 		//searchType += "'Vacant'";
@@ -77,9 +79,17 @@ function doSearch()
 		tempArr.push("'Open'");
 		//searchType += "'Open'";
 	//if (type3) //hazardous waste site
+	if(tempArr.length > 0){
+		searchType = " AND Status IN(";
 		searchType += tempArr.join(",");
 		console.log(searchType);
-	searchStr += searchType + ")";
+		searchStr += searchType + ")";
+	}
+	else{
+		searchType = " AND Status like ''"
+		searchStr += searchType;
+	}
+	
   //searchStr += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 	
 	//-------end of filter by type code--------
@@ -109,8 +119,13 @@ function doSearch()
   			//get using all filters
   			//console.log(searchStr);
   			searchrecords = new google.maps.FusionTablesLayer(fusionTableId, {
-  				query: searchStr
-  		  });
+  				query: searchStr,
+  				styles: [{
+ 					markerOptions: {
+    					iconName: "large_green"
+  						}
+				}]
+  		 	 });
   		
   			searchrecords.setMap(map);
   			displayCount(searchStr);
@@ -130,6 +145,16 @@ function doSearch()
 		searchrecords.setMap(map);
 		displayCount(searchStr);
 	}
+	google.maps.event.addListener(searchrecords,"click",function(event){
+		testObj = event;
+		console.log("hello click");
+		
+		jQuery('<div/>',{
+			id:"myPop",
+		}).appendTo('body');
+		$("#myPop").html(testObj.infoWindowHtml);
+		event.preventDefault();
+	})
 }
 
 function clearSearch() {
@@ -226,4 +251,21 @@ function addCommas(nStr) {
 		x1 = x1.replace(rgx, '$1' + ',' + '$2');
 	}
 	return x1 + x2;
+}
+
+function addCouncilDistricts(){
+	
+	if($('#councilDistricts').is(':checked')){
+		console.log("checked");
+		districtLayer = new google.maps.FusionTablesLayer({
+			query:{select:'geometry',
+			from:'3941587'}});
+	
+		districtLayer.setMap(map);
+	}
+	else{
+		console.log("unchecked");
+		districtLayer.setMap(null);
+	}
+	doSearch();
 }
