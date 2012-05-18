@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Searchable map template demo (Oakland Blighted Housing)</title>
+<title>Oakland Blighted Housing</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
@@ -18,26 +18,29 @@
 	$(function() {
     initialize();
     $(".hint").ezpz_hint();
-    $(':checkbox').click(function(){
+    $('.cbType :checkbox').click(function(){
 		  doSearch();
 		});
+	$('#councilDistricts').change(function(){
+		addCouncilDistricts();
+	})
   });
 
 </script>
 </head>
 <body>
 		<div id="page"> 
-			<h1>Searchable map template demo (Oakland Blighted Housing)</h1>
+			<h1>Oakland Blighted Housing</h1>
 			<hr />
 			<div class="content-secondary">
 
 				<div id='search'>
-					<p class='tagline'>Find [something] in [some area]. Tagline or sentence describing your map.</p>
+					<p class='tagline'>Find blighted homes in Oakland, California. Tagline or sentence describing your map.</p>
 					
-					<h4>Recycling drop-off type</h4>
+					<h4>Status of Property</h4>
 					<ul class='options-v'>
-						<li><span id="label-blue"><label for='cbType1'><input type='checkbox' id='cbType1' />Vacant</label></span> <span class='mute'>(<a href='http://www.cityofchicago.org/city/en/depts/streets/supp_info/blue_cart_program.html'>more info</a>)</span></li>
-						<li><span id="label-green"><label for='cbType2'><input type='checkbox' id='cbType2' />Open</label></span></li>
+						<li><span id="label-blue"><label for='cbType1'><input type='checkbox' class="cbType" id='cbType1' />Vacant</label></span> <span class='mute'>(<a href='http://www.cityofchicago.org/city/en/depts/streets/supp_info/blue_cart_program.html'>more info</a>)</span></li>
+						<li><span id="label-green"><label for='cbType2'><input type='checkbox' class="cbType" id='cbType2' />Open</label></span></li>
 						<!--<li><span id="label-red"><label for='cbType3'><input type='checkbox' id='cbType3' />Hazardous materials</label></span> <span class='mute'>(<a href='http://www.cityofchicago.org/city/en/depts/doe/supp_info/hccrf/household_chemicalscomputerrecyclingfacilityoverview.html'>more info</a>)</span></li>-->
 					</ul>
 
@@ -59,7 +62,9 @@
 					<div class='clear'></div>
 					<input class="btn" type="button" id="btnSearch" value="Search" onclick="doSearch();" />
 					<span class='mute'><a href='#' onclick="initialize();">reset map</a></span>
-					<span id='resultCount'>&nbsp;</span>
+					<span id='resultCount'>&nbsp;</span><br />
+					<h4>Add Layer to Map</h4>
+					City Council Districts: <input id="councilDistricts" type="checkbox"/>
 					<hr />
 					<p class='mute'>View the raw data in Fusion Tables <a href='https://www.google.com/fusiontables/DataSource?snapid=S503902PX0a'>here</a>. 
 					<br />Map and <a href='https://github.com/derekeder/FusionTable-Map-Template'>search template</a> by <a href='http://derekeder.com'>Derek Eder</a>.
