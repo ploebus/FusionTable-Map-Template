@@ -149,10 +149,11 @@ function doSearch()
 		testObj = event;
 		console.log("hello click");
 		
-		jQuery('<div/>',{
+		var newInfoWindow = jQuery('<div/>',{
 			id:"myPop",
-		}).appendTo('body');
-		$("#myPop").html(testObj.infoWindowHtml);
+		});
+		jQuery('.content-secondary').append(newInfoWindow);
+		jQuery("#myPop").html(testObj.infoWindowHtml);
 		event.preventDefault();
 	})
 }
